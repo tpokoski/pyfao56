@@ -540,7 +540,8 @@ class Model:
             rSWD = io.Dr/io.TAW
             Drel = (rSWD-io.p)/(1-io.p)
             sf = 1.5
-            io.Ks = 1 - (math.exp(sf*Drel) -1)/(math.exp(sf)-1) 
+            io.Ks = sorted([0.0, (1 - (math.exp(sf*Drel) -1)/
+                                  (math.exp(sf)-1) ), 1.0])[1]
         else:
             #FAO-56 Eq. 84
             io.Ks = sorted([0.0, (io.TAW-io.Dr)/

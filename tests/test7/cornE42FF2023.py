@@ -46,7 +46,7 @@ def run():
 
     #Run the model with Update and SoilProfile classes
     mdl = fao.Model('2023-122', '2023-305', par, wth, irr=irr,
-                    sol=sol, upd=upd, cons_p=True, aq_ks=True)
+                    sol=sol, upd=upd, cons_p=True)
     mdl.run()
     print(mdl)
     mdl.savefile(os.path.join(module_dir,'E42FF2023.out'))
