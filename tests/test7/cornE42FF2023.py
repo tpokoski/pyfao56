@@ -49,7 +49,7 @@ def run():
                     sol=sol, upd=upd, cons_p=True)
     mdl.run()
     print(mdl)
-    mdl.savefile(os.path.join(module_dir,'E42FF2023.out'))
+    # mdl.savefile(os.path.join(module_dir,'E42FF2023.out'))
 
     #Analyze measured soil water data
     #Need to update soil water data with remainder of 2023 season.
@@ -60,16 +60,19 @@ def run():
         sws.swdata[key].getZr(mdl)
         sws.swdata[key].computeDr()
         sws.swdata[key].computeKs(mdl)
-    sws.savefile(os.path.join(module_dir,'E42FF2023.sws'))
+    # sws.savefile(os.path.join(module_dir,'E42FF2023.sws'))
 
     #Plot measured and simulated data
     vis = tools.Visualization(mdl, sws=sws, dayline=True)
-    pngpath = os.path.join(module_dir, 'E42FF2023_Dr.png')
-    vis.plot_Dr(drmax=True,raw=True,events=True,obs=True,ks=True,
-                dp=True,title='2023 Corn E42FF Dr',
-                filepath=pngpath)
-    pngpath = os.path.join(module_dir, 'E42FF2023_ET.png')
-    vis.plot_ET(title='2023 Corn E42FF ET', show=True, filepath=pngpath)
+    # pngpath = os.path.join(module_dir, 'E42FF2023_Dr.png')
+    # vis.plot_Dr(drmax=True,raw=True,events=True,obs=True,ks=True,
+    #             dp=True,title='2023 Corn E42FF Dr',
+    #             filepath=pngpath)
+    # pngpath = os.path.join(module_dir, 'E42FF2023_ET.png')
+    # vis.plot_ET(title='2023 Corn E42FF ET', show=True, filepath=pngpath)
+    print(vis.vdata)
+    rmse, bias, rsquare, nse = tools.Statistics()
+    
 
 if __name__ == '__main__':
     run()
