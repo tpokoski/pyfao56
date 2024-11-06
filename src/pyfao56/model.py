@@ -638,10 +638,18 @@ class Model:
             io.updKcb = float('NaN')
             io.updh = float('NaN')
             io.updfc = float('NaN')
+            io.updmDr = float('NaN')
+            io.updmDrmax = float('NaN')
+            io.updmfDr = float('NaN')
+            io.updmfDrmax = float('NaN')            
             if self.upd is not None:
                 io.updKcb = self.upd.getdata(mykey,'Kcb')
                 io.updh = self.upd.getdata(mykey,'h')
                 io.updfc = self.upd.getdata(mykey,'fc')
+                io.updmDr = self.upd.getdata(mykey,'mDr')
+                io.updmDrmax = self.upd.getdata(mykey,'mDrmax')
+                io.updmfDr = self.upd.getdata(mykey,'mfDr')
+                io.updmfDrmax = self.upd.getdata(mykey,'mfDrmax')
 
             #Advance timestep
             self._advance(io)
@@ -891,16 +899,28 @@ class Model:
             #Root zone soil water depletion (Dr, mm)
             Dr = io.Dr - effrain - effirr + io.ETcadj + io.Dinc
             io.Dr = sorted([0.0, Dr, io.TAW])[1]
+            
+            #Overwrite Dr if updates are available
+            if io.updmDr > 0: io.Dr = io.updmDr
 
             #Root zone soil water depletion fraction (fDr, mm/mm)
             io.fDr = 1.0 - ((io.TAW - io.Dr) / io.TAW)
+            
+            #Overwrite Dr if updates are available
+            if io.updmfDr > 0: io.fDr = io.updmfDr
 
             #Soil water depletion at max root depth (Drmax, mm)
             Drmax = io.Drmax - effrain - effirr + io.ETcadj + io.DP
             io.Drmax = sorted([0.0, Drmax, io.TAWrmax])[1]
+            
+            #Overwrite Dr if updates are available
+            if io.updmDrmax > 0: io.Drmax = io.updmDrmax
 
             #Soil water depletion fraction at Zrmax (fDrmax, mm/mm)
             io.fDrmax = 1.0 - ((io.TAWrmax - io.Drmax) / io.TAWrmax)
+            
+            #Overwrite Dr if updates are available
+            if io.updmfDrmax > 0: io.fDrmax = io.updmfDrmax
 
             #Soil water depletion in the bottom layer (Db, mm)
             Db = io.Drmax - io.Dr
