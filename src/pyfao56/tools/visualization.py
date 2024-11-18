@@ -76,7 +76,6 @@ class Visualization:
                                         how='outer')
         else:
             self.vdata = odatasub
-
         #Set zero rain and irrigation to NaN
         NaN = float('NaN')
         self.vdata['Rain'].replace(0.0,NaN,inplace=True)
@@ -89,6 +88,7 @@ class Visualization:
             self.todayidx = now.strftime('%Y-%j')
 
     def plot_Dr(self, drmax=False, raw=False, events=False, obs=False,
+                cont=False,
                 ks=False,dpro=False,title='',show=True,filepath=None):
         """Plot soil water depletion (Dr) and related water data.
 
@@ -250,6 +250,11 @@ class Visualization:
             ax.scatter(x, d['mDrmax'], color='darkturquoise',
                        marker='s', s=40, edgecolor='teal',
                        label='Measured Max Root Zone Depletion')
+        if cont:
+            ax.plot(x, d['mDrcont'], color='plum',
+                    label='Continuous Root Zone Depletion')
+            ax.plot(x, d['mDrmaxcont'], color='purple',
+                    label='Continuous Max Root Zone Depletion')
         if events:
             ax.scatter(x, d['Rain'], color='navy', marker='+',
                        s=35, linewidth=0.70, label='Rain')
